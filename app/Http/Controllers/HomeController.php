@@ -10,7 +10,8 @@ class HomeController extends Controller
     //
     public function index()
     {
-        return view('home');
+        $tahun = '';
+        return view('home', compact('tahun'));
     }
     
     public function store(Request $request)
@@ -21,7 +22,7 @@ class HomeController extends Controller
         $data1 = json_decode($menu);
         $data2 = json_decode($transaksi);
         $nilai = 0;
-
+        
         if ($request->tahun) {
             foreach ($data2 as $hasil) {
                 $nilai += $hasil->total;
@@ -43,7 +44,7 @@ class HomeController extends Controller
                     $jumlah[$i] = 0;
                 }
             }
-    
+            
             foreach ($data2 as $totalb) {
                 $bulans = date('n', strtotime($totalb->tanggal));
                 $jumlah[$bulans] += $totalb->total;
@@ -56,7 +57,16 @@ class HomeController extends Controller
             foreach ($data2 as $trans) {
                 $jumlahm[$trans->menu] += $trans->total;
             }
-            return view('home', compact('tahun', 'data1', 'data2', 'result', 'nilai', 'jumlah', 'jumlahm'));
+
+            $data = [
+                'menu' => $data1,
+                'trans' => $data2,
+                'jumlah' => $jumlah,
+                'rasult' => $result,
+                'jumlahm' => $jumlahm,
+            ];
+            
+            return view('home', compact('tahun', 'data', 'data1', 'data2', 'result', 'nilai', 'jumlah', 'jumlahm'));
         }else {
             return redirect('/');
         }        

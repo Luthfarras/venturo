@@ -35,8 +35,8 @@
                             <div class="">
                                 <select name="tahun" class="form-select" id="">
                                     <option selected disabled>Pilih Tahun Penjualan</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2022">2022</option>
+                                    <option value="2021" @selected($tahun == 2021)>2021</option>
+                                    <option value="2022" @selected($tahun == 2022)>2022</option>
                                 </select>
                             </div>
                     </div>
@@ -47,7 +47,7 @@
                 </div>
                 <hr>
                 <div class="">
-                    @isset($tahun)
+                    @isset($data)
                         <table class="table table-hover">
                             <thead>
                                 <tr class="table-dark">
@@ -77,16 +77,56 @@
                                 <tr>
                                     <td class="table-secondary" id="kategori" colspan="14"><b>Makanan</b></td>
                                 </tr>
+                                @php
+                                    $as = 0;
+                                @endphp
                                 @foreach ($data1 as $item)
                                     @if ($item->kategori == 'makanan')
                                         <tr>
                                             <td>{{ $item->menu }}</td>
                                             @for ($i = 1; $i <= 12; $i++)
-                                            @if ($result[$item->menu][$i] == 0)
-                                                <td></td>
-                                            @else
-                                                <td>{{ number_format($result[$item->menu][$i]) }}</td>
-                                            @endif
+                                            @php
+                                                $as++;
+                                            @endphp
+                                                @if ($result[$item->menu][$i] == 0)
+                                                    <td></td>
+                                                @else
+                                                    <td data-bs-toggle="modal" data-bs-target="#menu{{ $as }}">
+                                                        {{ number_format($result[$item->menu][$i]) }}</td>
+                                                @endif
+                                                <div class="modal fade" id="menu{{ $as }}" tabindex="-1"
+                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Detail
+                                                                    Penjualan {{ $item->menu }}</h1>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Nama menu : {{ $item->menu }} <br>
+                                                                Total Penjualan :
+                                                                {{ number_format($result[$item->menu][$i]) }}
+                                                                <hr>
+                                                                Rincian Penjualan : <br>
+                                                                @foreach ($data2 as $detail)
+                                                                @php
+                                                                    $a = date('n', strtotime($detail->tanggal))
+                                                                @endphp
+                                                                    @if ($a == $i && $item->menu == $detail->menu)
+                                                                        {{ $detail->tanggal }} : {{ $detail->total }}<br>
+                                                                    
+                                                                    @endif
+                                                                @endforeach
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Tutup</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             @endfor
                                             <td>{{ number_format($jumlahm[$item->menu]) }}</td>
                                         </tr>
@@ -100,11 +140,48 @@
                                         <tr>
                                             <td>{{ $item->menu }}</td>
                                             @for ($i = 1; $i <= 12; $i++)
-                                            @if ($result[$item->menu][$i] == 0)
-                                                <td></td>
-                                            @else
-                                                <td>{{ number_format($result[$item->menu][$i]) }}</td>
-                                            @endif
+                                            @php
+                                                $as++;
+                                            @endphp
+                                                @if ($result[$item->menu][$i] == 0)
+                                                    <td></td>
+                                                @else
+                                                    <td data-bs-toggle="modal" data-bs-target="#menu{{ $as }}">
+                                                        {{ number_format($result[$item->menu][$i]) }}</td>
+                                                @endif
+                                                <div class="modal fade" id="menu{{ $as }}" tabindex="-1"
+                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Detail
+                                                                    Penjualan {{ $item->menu }}</h1>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Nama menu : {{ $item->menu }} <br>
+                                                                Total penjualan :
+                                                                {{ number_format($result[$item->menu][$i]) }}
+                                                                <hr>
+                                                                Rincian Penjualan : <br>
+                                                                @foreach ($data2 as $detail)
+                                                                @php
+                                                                    $a = date('n', strtotime($detail->tanggal))
+                                                                @endphp
+                                                                    @if ($a == $i && $item->menu == $detail->menu)
+                                                                        {{ $detail->tanggal }} : {{ $detail->total }}<br>
+                                                                    
+                                                                    @endif
+                                                                @endforeach
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Tahun</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             @endfor
                                             <td>{{ number_format($jumlahm[$item->menu]) }}</td>
                                         </tr>
