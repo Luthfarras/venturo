@@ -30,6 +30,8 @@ class HomeController extends Controller
     
             foreach($data1 as $item){
                 for ($i=1; $i <= 12 ; $i++) { 
+                    $bulans = date('F', mktime(0, 0, 0, $i, 1));
+                    $title[$item->menu][$i] = "Detail penjualan $item->menu bulan $bulans";
                     $result[$item->menu][$i] = 0;
                 }
             }
@@ -44,7 +46,7 @@ class HomeController extends Controller
                     $jumlah[$i] = 0;
                 }
             }
-            
+
             foreach ($data2 as $totalb) {
                 $bulans = date('n', strtotime($totalb->tanggal));
                 $jumlah[$bulans] += $totalb->total;
@@ -66,7 +68,7 @@ class HomeController extends Controller
                 'jumlahm' => $jumlahm,
             ];
             
-            return view('home', compact('tahun', 'data', 'data1', 'data2', 'result', 'nilai', 'jumlah', 'jumlahm'));
+            return view('home', compact('tahun', 'data', 'data1', 'data2', 'result', 'nilai', 'jumlah', 'jumlahm', 'title'));
         }else {
             return redirect('/');
         }        
