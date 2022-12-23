@@ -30,8 +30,9 @@ class HomeController extends Controller
     
             foreach($data1 as $item){
                 for ($i=1; $i <= 12 ; $i++) { 
-                    $bulans = date('F', mktime(0, 0, 0, $i, 1));
-                    $title[$item->menu][$i] = "Detail penjualan $item->menu bulan $bulans";
+                    setlocale(LC_ALL, 'id-ID', 'id_ID');
+                    $bulbul = strftime('%B', mktime(0, 0, 0, $i, 1));
+                    $title[$item->menu][$i] = "Detail penjualan $item->menu bulan $bulbul";
                     $result[$item->menu][$i] = 0;
                 }
             }

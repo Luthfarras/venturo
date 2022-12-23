@@ -116,43 +116,11 @@
                                                     <td data-bs-toggle="modal" data-bs-target="#menu{{ $as }}">
                                                         {{ number_format($result[$item->menu][$i]) }}</td>
                                                 @endif
-                                                <div class="modal fade" id="menu{{ $as }}" tabindex="-1"
-                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $title[$item->menu][$i] }}</h1>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Nama menu : {{ $item->menu }} <br>
-                                                                Total penjualan :
-                                                                {{ number_format($result[$item->menu][$i]) }}
-                                                                <hr>
-                                                                Rincian Penjualan : <br>
-                                                                @foreach ($data2 as $detail)
-                                                                    @php
-                                                                        $a = date('n', strtotime($detail->tanggal));
-                                                                    @endphp
-                                                                    @if ($a == $i && $item->menu == $detail->menu)
-                                                                        {{ $detail->tanggal }} : {{ $detail->total }}<br>
-                                                                    @endif
-                                                                @endforeach
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Tahun</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             @endfor
                                             <td>{{ number_format($jumlahm[$item->menu]) }}</td>
                                         </tr>
                                     @endif
                                 @endforeach
-
                             </tbody>
                             <tfoot class="table-dark">
                                 <tr>
@@ -164,6 +132,7 @@
                                 </tr>
                             </tfoot>
                         </table>
+
                         @php
                             $ab = 0;
                         @endphp
@@ -172,7 +141,6 @@
                                 @php
                                     $ab++;
                                 @endphp
-
                                 <div class="modal fade" id="menu{{ $ab }}" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -205,7 +173,6 @@
                                                                     <td>{{ $detail->tanggal }}</td>
                                                                     <td>{{ $detail->total }}</td>
                                                                 </tr>
-                                                                {{-- {{ $detail->tanggal }} : {{ $detail->total }}<br> --}}
                                                             @endif
                                                         @endforeach
                                                     </tbody>
